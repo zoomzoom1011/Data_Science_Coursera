@@ -1,7 +1,7 @@
 # tidy data set description
 
 ### The variables
-Tidy data has 181 rows and 68 columns. Mean and standard deviation average included. 
+Tidy data has 180 rows and 68 columns. Mean and standard deviation average included. 
 
 ### Activity column has 6 types as listed below.
 1. WALKING

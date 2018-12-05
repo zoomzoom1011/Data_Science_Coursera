@@ -1,6 +1,8 @@
-This project contains: README.md, tidy_data.txt, codebook.md, run_analysis.R
+This repo was created to finish the assignment for week 4 of Getting and Cleaning Data Coursera course.
 
-This project can be finished in following steps: 
+This repo contains: README.md, tidy_data.txt, codebook.md, run_analysis.R
+
+The project can be finished in following steps: 
 1. download the data to working directory and unzip
 2. read data into R
 3. merge the train and test data 

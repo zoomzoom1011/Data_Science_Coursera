@@ -1,3 +1,5 @@
+To test all the results, we need to check: 
+
 Was a valid GitHub URL containing a git repository submitted?
 
 Does the GitHub repository contain at least one commit beyond the original fork?

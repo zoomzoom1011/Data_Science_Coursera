@@ -5,8 +5,8 @@ account: zoomzoom1011
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 1337831
-bundleId: 2506245
+bundleId: 2506556
 url: https://zoomzoom1011.shinyapps.io/Shiny/
-when: 1571252177.61098
+when: 1571259363.48094
 asMultiple: FALSE
 asStatic: FALSE

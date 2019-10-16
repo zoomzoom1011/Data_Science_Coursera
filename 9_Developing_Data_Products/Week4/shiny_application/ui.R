@@ -14,7 +14,9 @@ shinyUI(fluidPage(
 
     # Application title
     titlePanel("Simple Data"),
-
+    
+    helpText("The ingredient in the wine, larger bin means lower width"),
+    
     # Sidebar with a slider input for number of bins
     sidebarLayout(
         sidebarPanel(

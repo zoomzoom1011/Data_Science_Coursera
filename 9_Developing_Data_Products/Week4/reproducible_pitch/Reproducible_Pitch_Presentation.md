@@ -1,4 +1,4 @@
-Reproducible_Pitch_Presentation
+Reproducible Pitch Presentation
 ========================================================
 author: Zoom
 date: 
@@ -11,28 +11,28 @@ This is the simple example for Shiny application and can be achieved at the this
 <https://zoomzoom1011.shinyapps.io/Shiny/>.
 
 Source code files ui.R and server.R are stored in Github: 
-<https://zoomzoom1011.shinyapps.io/Shiny/>.
+<https://github.com/zoomzoom1011/Data_Science_Coursera/tree/master/9_Developing_Data_Products/Week4/shiny_application>.
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
 
-Slide With Code
+Web Application Goal
+========================================================
+
+This application will be used to see the chlorides amount in the wine from the machine learning databases. 
+For user, you can adjust bin number to see view the different width's influence for the display. 
+
+Data summary
 ========================================================
 
 
 ```r
-summary(cars)
+url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
+data <- read.csv(url, sep = ";")
+summary(data$chlorides)
 ```
 
 ```
-     speed           dist       
- Min.   : 4.0   Min.   :  2.00  
- 1st Qu.:12.0   1st Qu.: 26.00  
- Median :15.0   Median : 36.00  
- Mean   :15.4   Mean   : 42.98  
- 3rd Qu.:19.0   3rd Qu.: 56.00  
- Max.   :25.0   Max.   :120.00  
+   Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+0.01200 0.07000 0.07900 0.08747 0.09000 0.61100 
 ```
 
 Slide With Plot

@@ -7,8 +7,11 @@ autosize: true
 Overview
 ========================================================
 
-This is the simple example for Shiny application 
-<https://support.rstudio.com/hc/en-us/articles/200486468>.
+This is the simple example for Shiny application and can be achieved at the this website: 
+<https://zoomzoom1011.shinyapps.io/Shiny/>.
+
+Source code files ui.R and server.R are stored in Github: 
+<https://zoomzoom1011.shinyapps.io/Shiny/>.
 
 - Bullet 1
 - Bullet 2

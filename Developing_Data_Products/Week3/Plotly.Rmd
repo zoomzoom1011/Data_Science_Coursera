@@ -1,0 +1,44 @@
+---
+title: "R Markdown Presentation & Plotly"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Inrroduction
+
+1. Create a web page presentation using R Markdown that features a plot created with Plotly.  
+2. Host your webpage on either RPubs, GitHub Pages, or NeoCities.   
+3. Your webpage must contain the date that you created the document, and it must contain a plot created with Plotly.
+
+## Heatmap
+```{r warning=FALSE, message=FALSE}
+library(plotly)
+```
+
+```{r}
+# data frame
+data_x <- c(1:100) #
+data_y <- rnorm(100, mean = 0)
+data <- data.frame(data_x, data_y )
+# format setup
+f <- list(
+  family = "Courier New, monospace",
+  size = 18,
+  color = "#7f7f7f"
+)
+x <- list(
+  title = "x Axis",
+  titlefont = f
+)
+y <- list(
+  title = "y Axis",
+  titlefont = f
+)
+# plot
+data_plot <- plot_ly(data, x = ~data_x, y = ~data_y , type = 'scatter', mode = 'lines') %>%
+  layout(xaxis = x, yaxis = y)
+data_plot
+```

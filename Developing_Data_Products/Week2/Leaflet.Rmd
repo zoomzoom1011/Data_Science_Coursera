@@ -1,0 +1,100 @@
+---
+title: "R Markdown and Leaflet"
+date: "10/15/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introdcution
+
+Leaflet is the leading open-source JavaScript library for mobile-friendly interactive maps. This also can be run in R. I will show some features in Leaflet package. 
+
+```{r library}
+library(leaflet)
+```
+## Load a Map
+
+```{r}
+my_map <- leaflet() %>% 
+  addTiles()
+my_map
+```
+
+## Add Markers
+
+```{r}
+my_map <- my_map %>%
+  addMarkers(lat=39.952647, lng=-75.193913, 
+             popup="My Office")
+my_map
+```
+
+## Add Many Markers
+
+```{r}
+set.seed(2019-10-14)
+df <- data.frame(lat = runif(10, min = 39.9, max = 40.0),
+                 lng = runif(10, min = -75.2, max = -75.1))
+df %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers()
+```
+
+## Make Custom Markers
+
+```{r}
+pennIcon <- makeIcon(
+  iconUrl = "https://media.licdn.com/dms/image/C4E0BAQHABrCZLLgIhA/company-logo_200_200/0?e=2159024400&v=beta&t=EWwnly1NordopQSV5qmfiuQTUmXGb4ey0EhjiSVgK78",
+  iconWidth = 31*215/230, iconHeight = 31,
+  iconAnchorX = 31*215/230/2, iconAnchorY = 16
+)
+
+pennLatLong <- data.frame(
+  lat = c(39.952647, 39.953647, 39.954647),
+  lng = c(-75.193913, -75.194913, -75.195913))
+
+pennLatLong %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(icon = pennIcon)
+```
+
+## Add Multiple Popups
+
+```{r}
+pennSites <- c(
+  "<a href='https://www.library.upenn.edu/'>Van Pelt Library</a>",
+  "<a href='https://www.theinnatpenn.com/'>The Inn at Penn</a>",
+  "<a href='https://www.facilities.upenn.edu/'>Sansom Place West</a>"
+)
+
+pennLatLong %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(icon = pennIcon, popup = pennSites)
+```
+
+## Map Clusters
+
+```{r}
+df <- data.frame(lat = runif(300, min = 39.90, max = 40.00),
+                 lng = runif(300, min = -75.20, max = -75.10))
+df %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(clusterOptions = markerClusterOptions())
+```
+## Map Circle Markers
+
+```{r}
+df <- data.frame(lat = runif(20, min = 39.90, max = 40.00),
+                 lng = runif(20, min = -75.20, max = -75.10))
+df %>% 
+  leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers()
+```

@@ -1,6 +1,5 @@
 ---
 title: "Regression Models Course Project"
-author: "Chuwei Zhong"
 date: "10/8/2019"
 output: pdf_document
 ---

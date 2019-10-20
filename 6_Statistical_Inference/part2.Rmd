@@ -1,6 +1,5 @@
 ---
 title: 'Part 2: Basic Inferential Data Analysis Instructions'
-author: "Chuwei Zhong"
 date: "October 5, 2019"
 output: pdf_document
 ---

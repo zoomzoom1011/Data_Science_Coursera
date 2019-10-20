@@ -1,6 +1,5 @@
 ---
 title: "Practical Machine Learning Assignment"
-author: "Chuwei Zhong"
 date: "10/9/2019"
 output:
   pdf_document: default

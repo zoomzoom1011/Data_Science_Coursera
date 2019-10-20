@@ -1,6 +1,5 @@
 ---
 title: "Statistical Inference Peer Assignment 1"
-author: "Chuwei Zhong"
 date: "October 5, 2019"
 output: pdf_document
 ---

@@ -1,5 +1,6 @@
 ---
 title: "R Markdown Presentation & Plotly"
+date : "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
 ---
 

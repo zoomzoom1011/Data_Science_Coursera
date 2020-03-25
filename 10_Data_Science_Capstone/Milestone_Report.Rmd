@@ -1,0 +1,152 @@
+---
+title: "Data Science Capstone Milestone Project"
+date: "March 17, 2020"
+output: html_document
+---
+
+## Introduction
+Load library
+```{r library,message=FALSE,warning=FALSE}
+library(ggplot2)
+library(NLP)
+library(tm)
+library(RWeka)
+library(stringi)
+```
+
+
+## Getting The Data
+Download and unzip the data to local disk:
+
+```{r}
+if(!file.exists("./projectData")){
+  dir.create("./projectData")
+}
+Url <- "https://d396qusza40orc.cloudfront.net/dsscapstone/dataset/Coursera-SwiftKey.zip"
+
+if(!file.exists("./projectData/Coursera-SwiftKey.zip")){
+  download.file(Url,destfile="./projectData/Coursera-SwiftKey.zip",mode = "wb")
+}
+
+if(!file.exists("./projectData/final")){
+  unzip(zipfile="./projectData/Coursera-SwiftKey.zip",exdir="./projectData")
+}
+```
+
+The datasets consist of the text information from:
+
+1. News
+
+2. Blogs
+
+3. Twitter
+
+in four different languages:
+
+1. German
+
+2. English
+
+3. Finnish
+
+4. Russian
+
+## read data from the files
+
+```{r warning=FALSE}
+# Read the blogs and twitter files
+blogs <- readLines("./projectData/final/en_US/en_US.blogs.txt", encoding="UTF-8", skipNul = TRUE)
+twitter <- readLines("./projectData/final/en_US/en_US.twitter.txt", encoding="UTF-8", skipNul = TRUE)
+news <- readLines("./projectData/final/en_US/en_US.news.txt", encoding="UTF-8", skipNul = TRUE)
+```
+
+Now we can do the statistics to count lines, words and characters
+
+```{r}
+twitter_words <-stri_stats_latex(twitter)[4]
+blogs_words <-stri_stats_latex(blogs)[4]
+news_words <-stri_stats_latex(news)[4]
+twitter_nchar<-sum(nchar(twitter))
+blogs_nchar<-sum(nchar(blogs))
+news_nchar<-sum(nchar(news))
+
+data.frame("filename " = c("twitter", "blogs", "news"),
+           "Num.lines" = c(length(twitter),length(blogs), length(news)),
+           "Num.words" = c(sum(blogs_words), sum(news_words), sum(twitter_words)),
+           "Num.character" = c(blogs_nchar,news_nchar,twitter_nchar))
+```
+
+## Cleaning The Data
+
+To deal with a large file comsumes a lot of time. So I just choose 100000 samples for the later analysis. Then the data will be cleaned by the tools from library tm. 
+
+```{r warning=FALSE}
+sampledDocs <- sample(paste(blogs, news, twitter), size = 10000, replace = TRUE)
+rm(blogs, news, twitter)
+
+documents <- Corpus(VectorSource(sampledDocs))
+rm(sampledDocs)
+
+# remove more transforms
+toSpace <- content_transformer(function(x, pattern) gsub(pattern, " ", x))
+documents <- tm_map(documents, toSpace, "(f|ht)tp(s?)://(.*)[.][a-z]+")
+documents <- tm_map(documents, toSpace, "@[^\\s]+")
+
+# convert to lowercase
+documents <- tm_map(documents, content_transformer(tolower))
+
+# remove whitespace
+documents <- tm_map(documents, stripWhitespace)
+
+# remove punctuation
+documents <- tm_map(documents, removePunctuation)
+
+# remove numbers
+documents <- tm_map(documents, removeNumbers)
+
+# remove english stop words
+documents <- tm_map(documents, removeWords, stopwords("english"))
+```
+
+## Exploratory Analysis
+The n-grams typically are from the speech & text corpus. Here the unigrams are created. 
+
+```{r warning=FALSE}
+
+uniGramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 1, max = 1))
+biGramTokenizer <- function(x) NGramTokenizer(x, Weka_control(min = 2, max = 2))
+
+uniGramMatrix <- TermDocumentMatrix(documents, control = list(tokenize = uniGramTokenizer))
+biGramMatrix <- TermDocumentMatrix(documents, control = list(tokenize = biGramTokenizer))
+
+freqTerms <- findFreqTerms(uniGramMatrix, lowfreq = 1000)
+termFrequency <- sort(rowSums(as.matrix(uniGramMatrix[freqTerms,])),decreasing = TRUE)
+termFrequency <- data.frame(unigram=names(termFrequency), frequency=termFrequency)
+
+head(termFrequency, 10)
+
+#plot the unigram frequency by the histogram
+g <- ggplot(termFrequency, aes(x=reorder(unigram, frequency), y=frequency)) +
+    geom_bar(stat = "identity") + 
+    theme(legend.title=element_blank()) +
+    xlab("Unigram") + ylab("Frequency") +
+    ggtitle("Unigrams with frequencies > 10000") +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+print(g)
+
+freqTerms <- findFreqTerms(biGramMatrix, lowfreq = 1000)
+termFrequency <- rowSums(as.matrix(biGramMatrix[freqTerms,]))
+termFrequency <- data.frame(bigram=names(termFrequency), frequency=termFrequency)
+
+g <- ggplot(termFrequency, aes(x=reorder(bigram, frequency), y=frequency)) +
+    geom_bar(stat = "identity") +  coord_flip() +
+    theme(legend.title=element_blank()) +
+    xlab("Bigram") + ylab("Frequency") +
+    labs(title = "Top Bigrams by Frequency")
+print(g)
+```
+
+## Next Step
+
+After this simple analysis, the next step of the project is to further explore the algoritm so that once you type in a word, the next word will be suggested.And then I will deploy the algorithm to the Shiny inferface.   
+
